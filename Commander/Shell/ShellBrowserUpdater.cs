@@ -79,7 +79,10 @@ namespace ShellDll
                             if (!PIDL.IsEmpty(shNotify.dwItem1))
                             {
                                 IntPtr parent, child, relative;
-                                PIDL.SplitPidl(shNotify.dwItem1, out parent, out child);
+                                try
+                                {
+                                    PIDL.SplitPidl(shNotify.dwItem1, out parent, out child);
+                                
 
                                 PIDL parentPIDL = new PIDL(parent, false);
                                 ShellItem parentItem = br.GetShellItem(parentPIDL);
@@ -94,6 +97,8 @@ namespace ShellDll
 
                                 Marshal.FreeCoTaskMem(child);
                                 parentPIDL.Free();
+                                }
+                                catch (Exception ex) { }
                             }
                         }
                         #endregion
